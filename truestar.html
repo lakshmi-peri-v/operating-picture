@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRUE STAR · Signal Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;
+  --bg-2:#f7f8fa;
+  --ink:#101114;
+  --panel:#ffffff;
+  --panel-2:#f5f6f8;
+  --line:#e6e8ec;
+  --line-2:#d4d8de;
+  --mute:#8b9099;
+  --mute-2:#5c626b;
+  --text:#101114;
+  --text-soft:#444a52;
+  --accent:#2563eb;       /* primary blue */
+  --accent-soft:#dbe7ff;
+  --accent-ink:#1d4ed8;
+  --green:#15a36a;
+  --green-soft:#dcf3e8;
+  --amber:#d08700;
+  --amber-soft:#fbeecb;
+  --red:#dc4b3e;
+  --red-soft:#fbe2de;
+  --teal:#0d9488;
+  --r:14px;
+  --r-sm:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* TOP BAR */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:40;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 26px;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:11px}
+.star{width:24px;height:24px;flex:none}
+.star path{fill:var(--accent)}
+.brand-name{font-weight:700;letter-spacing:.12em;font-size:13px}
+.brand-name b{color:var(--accent)}
+.brand-sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.step-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
+
+/* progress rail */
+.rail{position:fixed;top:58px;left:0;right:0;z-index:39;height:3px;background:var(--line)}
+.rail-fill{height:100%;background:var(--accent);width:0;transition:width .5s ease}
+
+/* STAGE */
+.stage{position:relative;z-index:5;max-width:1120px;margin:0 auto;padding:84px 30px 96px}
+.screen{display:none;animation:in .5s ease both}
+.screen.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.kicker{display:inline-flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:600}
+.kicker .num{font-family:'JetBrains Mono',monospace;color:var(--mute);border:1px solid var(--line-2);border-radius:20px;padding:3px 9px;font-size:10px}
+h1.title{font-weight:700;font-size:clamp(26px,3.6vw,40px);line-height:1.08;letter-spacing:-.02em;margin-bottom:12px}
+h1.title em{color:var(--accent);font-style:normal}
+.lede{font-size:15.5px;line-height:1.6;color:var(--text-soft);max-width:720px}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);position:relative}
+.grid{display:grid;gap:16px}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;margin-top:34px;gap:16px}
+.btn{font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:10px;cursor:pointer;border:none;
+  padding:13px 24px;border-radius:11px;color:#fff;background:var(--accent);transition:.18s}
+.btn:hover{background:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--text-soft);border:1px solid var(--line-2)}
+.btn.ghost:hover{background:var(--bg-2);color:var(--text)}
+.btn svg{width:16px;height:16px}
+
+/* dot nav */
+.dotnav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:35;display:flex;flex-direction:column;gap:10px}
+@media(max-width:1080px){.dotnav{display:none}}
+.dotnav button{width:9px;height:9px;border-radius:50%;border:1px solid var(--line-2);background:transparent;cursor:pointer;padding:0;transition:.2s;position:relative}
+.dotnav button.on{background:var(--accent);border-color:var(--accent)}
+.dotnav button .lbl{position:absolute;right:18px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:10.5px;color:#fff;background:var(--ink);padding:4px 9px;border-radius:6px;opacity:0;pointer-events:none;transition:.2s}
+.dotnav button:hover .lbl{opacity:1;right:20px}
+
+/* ===== SLIDE 1 — WHY ===== */
+.two{grid-template-columns:1fr 1fr;margin-top:30px}
+@media(max-width:860px){.two{grid-template-columns:1fr}}
+.pad{padding:28px}
+.lbl{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:12px;font-weight:600}
+.crit{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.chip{font-size:12.5px;font-weight:500;color:var(--accent-ink);background:var(--accent-soft);border-radius:30px;padding:7px 13px}
+.painlist{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:4px}
+.painlist li{display:flex;gap:11px;font-size:14px;color:var(--text-soft);line-height:1.4}
+.painlist .pin{width:6px;height:6px;border-radius:2px;background:var(--red);margin-top:7px;flex:none;transform:rotate(45deg)}
+.callout{margin-top:22px;padding:18px 20px;border-radius:var(--r-sm);background:var(--red-soft);border:1px solid #f3c9c2}
+.callout .l{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:6px;font-weight:700}
+.callout p{font-size:15px;line-height:1.45;color:var(--text)}
+.methodbox{padding:28px;display:flex;flex-direction:column;justify-content:center;background:var(--bg-2)}
+.methodstep{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.methodstep:last-child{border:none}
+.methodstep .mn{width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:12px;font-family:'JetBrains Mono',monospace;flex:none}
+.methodstep .mt{font-size:14px;font-weight:500;color:var(--text)}
+
+/* ===== SLIDE 2 — DASHBOARD ===== */
+.meta-strip{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;margin-top:26px}
+.meta{padding:14px 20px;border-right:1px solid var(--line);flex:1;min-width:140px}
+.meta:last-child{border-right:none}
+.meta .ml{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:5px}
+.meta .mv{font-size:17px;font-weight:600}
+.meta .mv.warn{color:var(--amber)}
+.metric-grid{grid-template-columns:repeat(4,1fr);margin-top:16px}
+@media(max-width:860px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
+.metric{padding:20px}
+.metric .ml{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:12px;font-weight:500}
+.metric .mv{font-weight:700;font-size:34px;line-height:1;letter-spacing:-.02em}
+.metric .mbar{height:5px;border-radius:5px;background:var(--line);margin-top:14px;overflow:hidden}
+.metric .mfill{height:100%;border-radius:5px}
+.metric .mstatus{font-size:11px;font-weight:600;margin-top:10px}
+.metric.ok .mv{color:var(--green)}.metric.ok .mfill{background:var(--green)}.metric.ok .mstatus{color:var(--green)}
+.metric.warn .mv{color:var(--amber)}.metric.warn .mfill{background:var(--amber)}.metric.warn .mstatus{color:var(--amber)}
+.metric.bad .mv{color:var(--red)}.metric.bad .mfill{background:var(--red)}.metric.bad .mstatus{color:var(--red)}
+.ruleset{grid-template-columns:1fr 1fr;margin-top:16px}
+@media(max-width:760px){.ruleset{grid-template-columns:1fr}}
+.rule{display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:var(--r-sm);background:var(--bg-2);border:1px solid var(--line);border-left:3px solid var(--amber)}
+.rule .rg{font-size:12.5px;font-weight:600}
+.rule .rc{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mute-2)}
+.rule .ra{color:var(--mute);font-weight:700}
+.rule .rf{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--amber)}
+.rule .rn{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--red);background:var(--red-soft);border-radius:14px;padding:3px 9px}
+
+/* ===== SLIDE 3 — SIGNAL ENGINE ===== */
+.stack{margin-top:24px;display:flex;flex-direction:column;gap:0;align-items:center}
+.sources{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:6px}
+.src{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--mute-2);background:var(--bg-2);border:1px solid var(--line);border-radius:7px;padding:6px 11px}
+.down{height:22px;display:grid;place-items:center;color:var(--accent)}
+.down svg{width:14px;height:18px}
+.layer{width:100%;border-radius:var(--r);border:1px solid var(--line);padding:18px 22px}
+.layer.signal{border:1.5px solid var(--accent);background:linear-gradient(180deg,var(--accent-soft),#fff)}
+.layer .lh{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.layer .lnum{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;background:var(--accent);color:#fff;border-radius:6px;padding:3px 8px}
+.layer .lt{font-weight:700;letter-spacing:.04em;font-size:13.5px}
+.layer .ln{font-size:11px;color:var(--mute);margin-left:auto}
+.sigtags{display:flex;flex-wrap:wrap;gap:6px}
+.sig{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-ink);background:#fff;border:1px solid var(--accent-soft);border-radius:6px;padding:5px 9px}
+/* agents row */
+.agents{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%}
+@media(max-width:900px){.agents{grid-template-columns:repeat(2,1fr)}}
+.agent{border:1px solid var(--line);border-radius:var(--r-sm);padding:14px;background:#fff}
+.agent .an{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--mute);margin-bottom:4px}
+.agent .at{font-size:13px;font-weight:700;margin-bottom:10px;line-height:1.2}
+.agent .io{font-size:10.5px;line-height:1.5}
+.agent .io .iol{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:700;display:block;margin-bottom:2px}
+.agent .io .in{color:var(--text-soft)}
+.agent .io .out{color:var(--accent-ink);font-weight:600}
+.agent .io .sep{height:8px}
+.agent.chain{border-color:var(--amber);background:var(--amber-soft)}
+.agent.chain .at{color:var(--amber)}
+.merge{height:26px;display:grid;place-items:center;color:var(--accent)}
+.merge svg{width:14px;height:20px}
+.layer.exec{background:var(--bg-2)}
+.layer.exec .lnum{background:var(--mute-2)}
+.layer.gov{border:1.5px solid var(--teal);background:linear-gradient(180deg,#d8f3f0,#fff)}
+.layer.gov .lnum{background:var(--teal)}
+.iorow{display:flex;gap:24px;flex-wrap:wrap;font-size:12.5px}
+.iorow .k{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:700;margin-bottom:3px}
+.iorow .v{color:var(--text-soft)}
+.iorow .v b{color:var(--text)}
+.namestack{margin-top:22px;padding:16px 20px;border-radius:var(--r-sm);background:var(--bg-2);border:1px solid var(--line);font-size:13px;color:var(--text-soft);text-align:center}
+.namestack b{color:var(--accent-ink)}
+.outcome{text-align:center;font-weight:700;font-size:14px;color:var(--green);margin-top:4px}
+
+/* ===== SLIDE 4 — DECISIONS ===== */
+.eboard{grid-template-columns:repeat(3,1fr);margin-top:26px}
+@media(max-width:900px){.eboard{grid-template-columns:1fr}}
+.ecol{display:flex;flex-direction:column;overflow:hidden}
+.ehead{padding:16px 18px;border-bottom:1px solid var(--line)}
+.ecap{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:4px 10px;font-weight:700;margin-bottom:10px}
+.eq{font-weight:700;font-size:17px;line-height:1.15}
+.ebody{padding:15px 18px;display:flex;flex-direction:column;gap:11px;flex:1}
+.eprob{padding:11px 13px;border-radius:9px;background:var(--red-soft);border:1px solid #f3c9c2}
+.eprob .epl{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:5px}
+.eprob .ept{font-size:13px;font-weight:600;line-height:1.25}
+.eprob .epb{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--red);font-weight:600;margin-top:4px}
+.echain{font-size:11px;color:var(--mute-2);line-height:1.45}
+.echain b{color:var(--amber)}
+.erec{padding:11px 13px;border-radius:9px;background:var(--green-soft);border:1px solid #bfe8d4}
+.erec .erl{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:5px}
+.erec .erv{font-weight:600;font-size:15px}
+.eowner{font-size:11px;color:var(--mute-2);display:flex;align-items:center;gap:7px}
+.eowner b{color:var(--text-soft)}
+.eowner .edue{margin-left:auto;font-family:'JetBrains Mono',monospace;color:var(--accent-ink)}
+.eowner .edue.urgent{color:var(--red)}
+.efoot{padding:13px 18px;border-top:1px solid var(--line);margin-top:auto}
+.ehil{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);background:#d8f3f0;border-radius:20px;padding:4px 9px;font-weight:700;margin-bottom:10px}
+.edecbtns{display:flex;gap:8px}
+.edb{flex:1;padding:10px;border-radius:9px;font-weight:600;font-size:12.5px;cursor:pointer;border:1px solid;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'Inter',sans-serif;transition:.18s}
+.edb.app{background:var(--green-soft);border-color:#bfe8d4;color:var(--green)}
+.edb.app:hover,.edb.app.chosen{background:var(--green);color:#fff}
+.edb.rej{background:var(--red-soft);border-color:#f3c9c2;color:var(--red)}
+.edb.rej:hover,.edb.rej.chosen{background:var(--red);color:#fff}
+.econf{font-size:10.5px;margin-top:9px;text-align:center;opacity:0;height:0;transition:.3s;color:var(--green);font-weight:500}
+.econf.show{opacity:1;height:auto}
+.econf.rej{color:var(--red)}
+.metric{transition:background .4s,border-color .4s}
+.metric .mv,.metric .mfill,.metric .mstatus{transition:color .4s,width .6s ease}
+.metric.flash{box-shadow:0 0 0 3px var(--accent-soft)}
+.loopnote{margin-top:18px;text-align:center;font-size:13.5px;color:var(--text-soft)}
+.loopnote b{color:var(--accent-ink)}
+
+/* ===== SLIDE 5 — ECONOMICS ===== */
+.econ-table{margin-top:26px;overflow:hidden;padding:0}
+.etrow{display:grid;grid-template-columns:1.4fr 1fr auto 1fr;align-items:center;gap:16px;padding:16px 26px;border-bottom:1px solid var(--line)}
+.etrow:last-child{border:none}
+.etrow.thead{background:var(--bg-2)}
+.etrow.thead span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.etrow .m{font-size:14.5px;font-weight:600}
+.etrow .b{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--red)}
+.etrow .a{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--green);font-weight:600}
+.etrow .ar{color:var(--mute)}
+.econ-cards{grid-template-columns:repeat(3,1fr);margin-top:16px}
+@media(max-width:760px){.econ-cards{grid-template-columns:1fr}}
+.ecard{padding:24px;text-align:center}
+.ecard .el{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:12px;font-weight:500}
+.ecard .ev{font-weight:700;font-size:38px;line-height:1;color:var(--accent)}
+.ecard.green .ev{color:var(--green)}
+
+/* ===== SLIDE 6 — ARCHITECTURE / SCALE ===== */
+.roadmap{margin-top:26px;display:flex;flex-direction:column;gap:10px}
+.phase{display:grid;grid-template-columns:46px 1fr;gap:16px;align-items:center}
+.phase .pn{width:46px;height:46px;border-radius:12px;background:var(--bg-2);border:1px solid var(--line-2);display:grid;place-items:center;font-weight:700;font-size:18px;color:var(--accent)}
+.phase.live .pn{background:var(--accent);color:#fff;border:none}
+.phase .pc{padding:14px 20px;display:grid;grid-template-columns:1.4fr .8fr .8fr 1fr;gap:14px;align-items:center}
+@media(max-width:760px){.phase .pc{grid-template-columns:1fr 1fr}}
+.phase .pname{font-size:15px;font-weight:600}
+.phase .pname .pt{display:block;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-top:4px;font-weight:600}
+.phase.live .pname .pt{color:var(--green)}
+.pstat .psl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:3px}
+.pstat .psv{font-size:13px;font-weight:600;color:var(--text-soft);font-family:'JetBrains Mono',monospace}
+.final{margin-top:26px;padding:34px;text-align:center;background:var(--bg-2);border:1px solid var(--line)}
+.final .ft{font-weight:700;font-size:clamp(20px,2.6vw,26px);line-height:1.25;max-width:640px;margin:0 auto 12px}
+.final .ft b{color:var(--accent)}
+.final .fs{font-size:14px;color:var(--text-soft);max-width:540px;margin:0 auto}
+.restart{margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mute-2);cursor:pointer;border:none;background:none}
+.restart:hover{color:var(--text)}
+.restart svg{width:14px;height:14px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <svg class="star" viewBox="0 0 24 24"><path d="M12 1.5l2.95 6.55L22 9.2l-5 5.05L18.4 22 12 18.3 5.6 22 7 14.25l-5-5.05 7.05-1.15z"/></svg>
+    <div>
+      <div class="brand-name"><b>TRUE STAR</b> · GTM OS</div>
+      <div class="brand-sub">Powered by the Signal Engine</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="step-count" id="stepCount">01 / 06</div>
+  </div>
+</div>
+<div class="rail"><div class="rail-fill" id="railFill"></div></div>
+<nav class="dotnav" id="dotnav"></nav>
+
+<main class="stage">
+
+  <!-- SLIDE 1 — WHY -->
+  <section class="screen active" data-label="Why This Workflow">
+    <div class="kicker"><span class="num">01</span> The Method</div>
+    <h1 class="title">Why <em>This</em> Workflow?</h1>
+    <p class="lede">Transformation starts with disciplined selection. We pick the workflow where friction is highest, frequency is constant, and the cost of slow coordination is most visible — then turn it into a governed operating system.</p>
+    <div class="grid two">
+      <div class="panel pad">
+        <div class="lbl">Selection Criteria</div>
+        <div class="crit">
+          <span class="chip">High Friction</span><span class="chip">High Frequency</span>
+          <span class="chip">Cross-Functional</span><span class="chip">Measurable</span>
+        </div>
+        <div class="lbl" style="margin-top:22px">Pain Today</div>
+        <ul class="painlist">
+          <li><span class="pin"></span> Information scattered across 8 systems</li>
+          <li><span class="pin"></span> Launch readiness hard to assess</li>
+          <li><span class="pin"></span> Risks surface late</li>
+          <li><span class="pin"></span> Decisions need multiple meetings</li>
+          <li><span class="pin"></span> Status is stale by the time it's reviewed</li>
+        </ul>
+        <div class="callout">
+          <div class="l">Result</div>
+          <p>Initiatives move at the speed of coordination, not market opportunity.</p>
+        </div>
+      </div>
+      <div class="panel methodbox">
+        <div class="lbl">The Repeatable Method</div>
+        <div class="methodstep"><span class="mn">1</span><span class="mt">Select the high-friction workflow</span></div>
+        <div class="methodstep"><span class="mn">2</span><span class="mt">Map its signals</span></div>
+        <div class="methodstep"><span class="mn">3</span><span class="mt">Define intelligence capabilities</span></div>
+        <div class="methodstep"><span class="mn">4</span><span class="mt">Design decision briefs</span></div>
+        <div class="methodstep"><span class="mn">5</span><span class="mt">Wire governance</span></div>
+        <div class="methodstep"><span class="mn">6</span><span class="mt">Measure the outcome</span></div>
+      </div>
+    </div>
+    <div class="nav">
+      <span></span>
+      <button class="btn" onclick="go(1)">The Operating Picture <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 — OPERATING PICTURE -->
+  <section class="screen" data-label="Operating Picture">
+    <div class="kicker"><span class="num">02</span> One Operating Picture</div>
+    <h1 class="title">The Operating Picture</h1>
+    <p class="lede">A single screen the initiative owner opens to know exactly where things stand. The example: <b>Feature X Launch</b> — Mid-Market, live, three open decisions.</p>
+    <div class="meta-strip">
+      <div class="meta"><div class="ml">Initiative</div><div class="mv">Feature X Launch</div></div>
+      <div class="meta"><div class="ml">Launch Date</div><div class="mv">September 15</div></div>
+      <div class="meta"><div class="ml">Health</div><div class="mv warn">● Yellow</div></div>
+      <div class="meta"><div class="ml">Open Decisions</div><div class="mv">3</div></div>
+    </div>
+    <div class="grid metric-grid">
+      <div class="panel metric warn" id="m-readiness"><div class="ml">Launch Readiness</div><div class="mv">78%</div><div class="mbar"><div class="mfill" style="width:78%"></div></div><div class="mstatus">On Track · Watch</div></div>
+      <div class="panel metric warn" id="m-audience"><div class="ml">Audience Quality</div><div class="mv">72%</div><div class="mbar"><div class="mfill" style="width:72%"></div></div><div class="mstatus">Acceptable</div></div>
+      <div class="panel metric bad" id="m-field"><div class="ml">Field Readiness</div><div class="mv">43%</div><div class="mbar"><div class="mfill" style="width:43%"></div></div><div class="mstatus">Below Threshold</div></div>
+      <div class="panel metric bad" id="m-funnel"><div class="ml">Funnel Health</div><div class="mv" style="font-size:26px;padding-top:6px">At Risk</div><div class="mbar"><div class="mfill" style="width:55%"></div></div><div class="mstatus">Win rate declining</div></div>
+    </div>
+    <div class="grid ruleset">
+      <div class="rule"><span class="rg">Launch Readiness</span><span class="rc">&lt; 80%</span><span class="ra">→</span><span class="rf">Escalate</span><span class="rn">now 78%</span></div>
+      <div class="rule"><span class="rg">Audience Quality</span><span class="rc">&lt; 75%</span><span class="ra">→</span><span class="rf">Escalate</span><span class="rn">now 72%</span></div>
+      <div class="rule"><span class="rg">Field Certification</span><span class="rc">&lt; 60%</span><span class="ra">→</span><span class="rf">Escalate</span><span class="rn">now 43%</span></div>
+      <div class="rule"><span class="rg">Conversion Drop</span><span class="rc">&gt; 5%</span><span class="ra">→</span><span class="rf">Escalate</span><span class="rn">now −8%</span></div>
+    </div>
+    <p class="lede" style="margin-top:18px">This is not reporting. It is the <b>current operating picture</b> — and every breach above produces a decision below.</p>
+
+    <div style="margin-top:36px;display:flex;align-items:baseline;gap:12px;border-top:1px solid var(--line);padding-top:26px">
+      <div style="font-weight:700;font-size:20px;letter-spacing:-.01em">Decisions Requiring Action</div>
+      <div style="font-size:12.5px;color:var(--mute)">each breach above → a prepared brief here</div>
+    </div>
+    <div class="grid eboard">
+      <div class="panel ecol">
+        <div class="ehead"><span class="ecap">Field Readiness · 43%</span><div class="eq">Are We Ready To Launch?</div></div>
+        <div class="ebody">
+          <div class="eprob"><div class="epl">Problem Detected</div><div class="ept">West Region Training Incomplete</div><div class="epb">43% certified</div></div>
+          <div class="erec"><div class="erl">Recommendation</div><div class="erv">Launch East Only</div></div>
+          <div class="eowner"><b>Owner A</b> · East go-live<span class="edue">Sept 5</span></div>
+          <div class="eowner"><b>Owner B</b> · West certification<span class="edue">Sept 7</span></div>
+        </div>
+        <div class="efoot">
+          <span class="ehil">Human-in-the-loop</span>
+          <div class="edecbtns">
+            <button class="edb app" onclick="decide(this,'d1')">Approve</button>
+            <button class="edb rej" onclick="decide(this,'d1')">Reject</button>
+          </div>
+          <div class="econf">Decision recorded · audit logged</div>
+        </div>
+      </div>
+      <div class="panel ecol">
+        <div class="ehead"><span class="ecap">Funnel · −8%</span><div class="eq">Is The Initiative Performing?</div></div>
+        <div class="ebody">
+          <div class="eprob"><div class="epl">Problem · Root Cause</div><div class="ept">Pricing Objection Detected</div><div class="epb">−8% win rate</div></div>
+          <div class="echain">Funnel Intelligence → <b>Customer Intelligence</b> → pricing objection surfaced. Q3 target at risk.</div>
+          <div class="erec"><div class="erl">Recommendation</div><div class="erv">Update Positioning</div></div>
+          <div class="eowner"><b>Owner C</b> · Pricing narrative<span class="edue">Sept 10</span></div>
+        </div>
+        <div class="efoot">
+          <span class="ehil">Human-in-the-loop</span>
+          <div class="edecbtns">
+            <button class="edb app" onclick="decide(this,'d2')">Approve</button>
+            <button class="edb rej" onclick="decide(this,'d2')">Reject</button>
+          </div>
+          <div class="econf">Decision recorded · audit logged</div>
+        </div>
+      </div>
+      <div class="panel ecol">
+        <div class="ehead"><span class="ecap">Audience · 72%</span><div class="eq">Targeting The Right Audience?</div></div>
+        <div class="ebody">
+          <div class="eprob"><div class="epl">Problem Detected</div><div class="ept">340 Accounts Double-Targeted</div><div class="epb">22% overlap</div></div>
+          <div class="erec"><div class="erl">Recommendation</div><div class="erv">Suppress Overlapping Accounts</div></div>
+          <div class="eowner"><b>Owner E</b> · Apply suppression list<span class="edue urgent">Today</span></div>
+        </div>
+        <div class="efoot">
+          <span class="ehil">Human-in-the-loop</span>
+          <div class="edecbtns">
+            <button class="edb app" onclick="decide(this,'d3')">Approve</button>
+            <button class="edb rej" onclick="decide(this,'d3')">Reject</button>
+          </div>
+          <div class="econf">Decision recorded · audit logged</div>
+        </div>
+      </div>
+    </div>
+    <div class="loopnote">Approve and the metric above <b>re-scores in real time</b> — readiness 78%→85%, the loop closes without a meeting. Agents propose; you decide.</div>
+
+    <div class="nav">
+      <button class="btn ghost" onclick="go(0)">Back</button>
+      <button class="btn" onclick="go(2)">The Signal Engine <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 — SIGNAL ENGINE (star) -->
+  <section class="screen" data-label="The Signal Engine">
+    <div class="kicker"><span class="num">03</span> The Engine Behind It</div>
+    <h1 class="title">The <em>Signal Engine</em></h1>
+    <p class="lede">Source systems are never replaced. The engine reads them, turns raw facts into typed signals, routes signals to specialized agents, and funnels every verdict through governance. One data shape, all the way through.</p>
+
+    <div class="stack">
+      <div class="sources">
+        <span class="src">Drive</span><span class="src">Slack</span><span class="src">Jira</span><span class="src">Zoom</span><span class="src">Email</span><span class="src">Confluence</span><span class="src">Teams</span>
+      </div>
+      <div class="down"><svg viewBox="0 0 14 18" fill="none"><path d="M7 0v13M2 9l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="layer signal">
+        <div class="lh"><span class="lnum">0</span><span class="lt">SIGNAL LAYER</span><span class="ln">raw facts → 20 typed signals · /gtm-scan</span></div>
+        <div class="sigtags">
+          <span class="sig">launch_readiness</span><span class="sig">milestones_complete</span><span class="sig">blockers_open</span><span class="sig">days_to_launch</span>
+          <span class="sig">audience_overlap</span><span class="sig">audience_quality</span><span class="sig">accounts_targeted</span><span class="sig">accts_double</span>
+          <span class="sig">field_certification</span><span class="sig">training_complete</span><span class="sig">reps_certified</span>
+          <span class="sig">win_rate</span><span class="sig">trial_signups</span><span class="sig">trial_to_opp</span><span class="sig">opp_to_close</span><span class="sig">pipeline_value</span>
+          <span class="sig">pricing_objections</span><span class="sig">feature_gaps</span><span class="sig">churn_signals</span><span class="sig">sentiment_score</span>
+        </div>
+      </div>
+      <div class="down"><svg viewBox="0 0 14 18" fill="none"><path d="M7 0v13M2 9l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="agents">
+        <div class="agent">
+          <div class="an">#1</div><div class="at">Launch Readiness</div>
+          <div class="io"><span class="iol">In</span><span class="in">launch_readiness · milestones · blockers · days_to_launch</span><div class="sep"></div><span class="iol">Out</span><span class="out">readiness_verdict</span></div>
+        </div>
+        <div class="agent">
+          <div class="an">#2</div><div class="at">Audience</div>
+          <div class="io"><span class="iol">In</span><span class="in">audience_overlap · quality · targeted · double</span><div class="sep"></div><span class="iol">Out</span><span class="out">audience_verdict + suppress_rec</span></div>
+        </div>
+        <div class="agent">
+          <div class="an">#3</div><div class="at">Enablement</div>
+          <div class="io"><span class="iol">In</span><span class="in">field_certification · training · reps_certified</span><div class="sep"></div><span class="iol">Out</span><span class="out">cert_verdict + gap_list</span></div>
+        </div>
+        <div class="agent">
+          <div class="an">#4</div><div class="at">Funnel</div>
+          <div class="io"><span class="iol">In</span><span class="in">win_rate · trials · trial_to_opp · opp_to_close · pipeline</span><div class="sep"></div><span class="iol">Out</span><span class="out">funnel_verdict + drop_flag →</span></div>
+        </div>
+      </div>
+      <div class="agents" style="margin-top:12px;grid-template-columns:1fr">
+        <div class="agent chain" style="max-width:340px">
+          <div class="an">#5 · triggered by drop_flag</div><div class="at">Customer</div>
+          <div class="io"><span class="iol">In</span><span class="in">pricing_objections · feature_gaps · churn_signals · sentiment_score</span><div class="sep"></div><span class="iol">Out</span><span class="out">root_cause + evidence</span></div>
+        </div>
+      </div>
+      <div class="merge"><svg viewBox="0 0 14 20" fill="none"><path d="M7 0v15M2 11l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="layer exec">
+        <div class="lh"><span class="lnum">6</span><span class="lt">EXECUTIVE INTELLIGENCE</span><span class="ln">synthesizes verdicts</span></div>
+        <div class="iorow">
+          <div><div class="k">In</div><div class="v">readiness_verdict · audience_verdict · cert_verdict · funnel_verdict · root_cause</div></div>
+          <div><div class="k">Out</div><div class="v"><b>decision_brief</b> — problem · recommendation · owners · due dates</div></div>
+        </div>
+      </div>
+      <div class="merge"><svg viewBox="0 0 14 20" fill="none"><path d="M7 0v15M2 11l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="layer gov">
+        <div class="lh"><span class="lnum">G</span><span class="lt">GOVERNANCE LAYER</span><span class="ln">the control plane</span></div>
+        <div class="iorow">
+          <div><div class="k">In</div><div class="v">decision_brief + threshold rules</div></div>
+          <div><div class="k">Out</div><div class="v"><b>escalation_fired</b> → human approve / reject → <b>audit_record</b></div></div>
+        </div>
+      </div>
+      <div class="merge"><svg viewBox="0 0 14 20" fill="none"><path d="M7 0v15M2 11l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="outcome">DECISION — executed by humans</div>
+    </div>
+
+    <div class="namestack">
+      <b>TRUE STAR</b> (operating system) → <b>Signal Engine</b> (runtime) → <b>Intelligence Layer</b> (6 agents) → <b>Governance</b> (control plane)
+    </div>
+    <div class="nav">
+      <button class="btn ghost" onclick="go(1)">Back</button>
+      <button class="btn" onclick="go(3)">The Decision Queue <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — ECONOMICS -->
+  <section class="screen" data-label="Economics">
+    <div class="kicker"><span class="num">04</span> Business Impact</div>
+    <h1 class="title">The <em>Economics</em></h1>
+    <p class="lede">Transformation that can't be measured can't be defended. Same start, same end — the leader stays in command, the coordination disappears.</p>
+    <div class="panel econ-table">
+      <div class="etrow thead"><span>Metric</span><span>Before</span><span></span><span>After</span></div>
+      <div class="etrow"><div class="m">Readiness Assessment</div><div class="b">5 Days</div><div class="ar">→</div><div class="a">30 Minutes</div></div>
+      <div class="etrow"><div class="m">Decision Latency</div><div class="b">~3 Weeks</div><div class="ar">→</div><div class="a">~2 Days</div></div>
+      <div class="etrow"><div class="m">Reporting Effort</div><div class="b">4 Hours</div><div class="ar">→</div><div class="a">15 Minutes</div></div>
+      <div class="etrow"><div class="m">Risk Detection</div><div class="b">Weekly</div><div class="ar">→</div><div class="a">Continuous</div></div>
+    </div>
+    <div class="grid econ-cards">
+      <div class="panel ecard green"><div class="el">Adoption Target</div><div class="ev">80%</div></div>
+      <div class="panel ecard"><div class="el">Est. Annual Hours Saved</div><div class="ev">2,000+</div></div>
+      <div class="panel ecard"><div class="el">Approx. FTE Impact</div><div class="ev">1+</div></div>
+    </div>
+    <div class="nav">
+      <button class="btn ghost" onclick="go(2)">Back</button>
+      <button class="btn" onclick="go(4)">Architecture &amp; Scale <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </section>
+
+  <!-- SLIDE 5 — SCALE -->
+  <section class="screen" data-label="Architecture & Scale">
+    <div class="kicker"><span class="num">05</span> Pilot To Enterprise</div>
+    <h1 class="title">Architecture &amp; <em>Scale</em></h1>
+    <p class="lede">The GTM initiative is the pilot. What scales is the repeatable method — applied workflow by workflow, with governance maturing at each phase. Source systems are never replaced.</p>
+    <div class="roadmap">
+      <div class="phase live"><div class="pn">1</div><div class="panel pc"><div class="pname">Single GTM Initiative<span class="pt">● Live · Pilot</span></div><div class="pstat"><div class="psl">Workflows</div><div class="psv">1</div></div><div class="pstat"><div class="psl">Users</div><div class="psv">12</div></div><div class="pstat"><div class="psl">Governance</div><div class="psv">Foundational</div></div></div></div>
+      <div class="phase"><div class="pn">2</div><div class="panel pc"><div class="pname">All GTM Initiatives<span class="pt">Expand</span></div><div class="pstat"><div class="psl">Workflows</div><div class="psv">8</div></div><div class="pstat"><div class="psl">Users</div><div class="psv">60</div></div><div class="pstat"><div class="psl">Governance</div><div class="psv">Foundational</div></div></div></div>
+      <div class="phase"><div class="pn">3</div><div class="panel pc"><div class="pname">Product Launches<span class="pt">Adjacent</span></div><div class="pstat"><div class="psl">Workflows</div><div class="psv">20</div></div><div class="pstat"><div class="psl">Users</div><div class="psv">150</div></div><div class="pstat"><div class="psl">Governance</div><div class="psv">Managed</div></div></div></div>
+      <div class="phase"><div class="pn">4</div><div class="panel pc"><div class="pname">Vendor Onboarding<span class="pt">Cross-Domain</span></div><div class="pstat"><div class="psl">Workflows</div><div class="psv">35</div></div><div class="pstat"><div class="psl">Users</div><div class="psv">300</div></div><div class="pstat"><div class="psl">Governance</div><div class="psv">Managed</div></div></div></div>
+      <div class="phase"><div class="pn">5</div><div class="panel pc"><div class="pname">Compliance Reviews<span class="pt">Regulated</span></div><div class="pstat"><div class="psl">Workflows</div><div class="psv">50</div></div><div class="pstat"><div class="psl">Users</div><div class="psv">500</div></div><div class="pstat"><div class="psl">Governance</div><div class="psv">Defined</div></div></div></div>
+      <div class="phase"><div class="pn">6</div><div class="panel pc"><div class="pname">Enterprise Platform<span class="pt">Scaled</span></div><div class="pstat"><div class="psl">Workflows</div><div class="psv">120+</div></div><div class="pstat"><div class="psl">Users</div><div class="psv">2,000+</div></div><div class="pstat"><div class="psl">Governance</div><div class="psv">Optimized</div></div></div></div>
+    </div>
+    <div class="final">
+      <div class="ft">The GTM example is the pilot. The asset is the <b>repeatable workflow-transformation framework</b>, proven on a real workflow before it scales.</div>
+      <div class="fs">One operating model. One Signal Engine. Governance that matures from foundational to optimized.</div>
+      <button class="restart" onclick="go(0)"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.36 2.64L3 8M3 3v5h5" stroke="#5c626b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Restart</button>
+    </div>
+    <div class="nav">
+      <button class="btn ghost" onclick="go(3)">Back</button>
+      <span></span>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const screens=[...document.querySelectorAll('.screen')];
+const dotnav=document.getElementById('dotnav');
+const railFill=document.getElementById('railFill');
+const stepCount=document.getElementById('stepCount');
+let cur=0;
+screens.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.innerHTML='<span class="lbl">'+s.dataset.label+'</span>';
+  b.onclick=()=>go(i);
+  dotnav.appendChild(b);
+});
+const dots=[...dotnav.children];
+function go(i){
+  if(i<0||i>=screens.length)return;
+  screens[cur].classList.remove('active');
+  dots[cur].classList.remove('on');
+  cur=i;
+  screens[cur].classList.add('active');
+  dots[cur].classList.add('on');
+  railFill.style.width=((i+1)/screens.length*100)+'%';
+  stepCount.textContent=String(i+1).padStart(2,'0')+' / '+String(screens.length).padStart(2,'0');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+// before/after state for each metric tile, keyed by decision
+const M={
+  d1:{
+    approve:[
+      {id:'m-field',cls:'warn',val:'68%',w:'68%',status:'Recovering'},
+      {id:'m-readiness',cls:'ok',val:'85%',w:'85%',status:'On Track'}
+    ],
+    before:[
+      {id:'m-field',cls:'bad',val:'43%',w:'43%',status:'Below Threshold'},
+      {id:'m-readiness',cls:'warn',val:'78%',w:'78%',status:'On Track · Watch'}
+    ]
+  },
+  d2:{
+    approve:[{id:'m-funnel',cls:'ok',val:'Improving',w:'75%',status:'Win rate recovering',fs:'26px'}],
+    before:[{id:'m-funnel',cls:'bad',val:'At Risk',w:'55%',status:'Win rate declining',fs:'26px'}]
+  },
+  d3:{
+    approve:[{id:'m-audience',cls:'ok',val:'90%',w:'90%',status:'Strong'}],
+    before:[{id:'m-audience',cls:'warn',val:'72%',w:'72%',status:'Acceptable'}]
+  }
+};
+function setMetric(u){
+  const el=document.getElementById(u.id);
+  if(!el)return;
+  el.classList.remove('ok','warn','bad');
+  el.classList.add(u.cls);
+  const mv=el.querySelector('.mv');
+  mv.textContent=u.val;
+  if(u.fs)mv.style.fontSize=u.fs;
+  el.querySelector('.mfill').style.width=u.w;
+  el.querySelector('.mstatus').textContent=u.status;
+  el.classList.add('flash');
+  setTimeout(()=>el.classList.remove('flash'),700);
+}
+function decide(btn,key){
+  const foot=btn.closest('.efoot');
+  foot.querySelectorAll('.edb').forEach(b=>b.classList.remove('chosen'));
+  btn.classList.add('chosen');
+  const conf=foot.querySelector('.econf');
+  conf.classList.add('show');
+  const approve=btn.classList.contains('app');
+  const map=M[key]||{};
+  if(approve){
+    conf.classList.remove('rej');
+    conf.textContent='Approved · audit logged · picture re-scored ↑';
+    (map.approve||[]).forEach(setMetric);
+  }else{
+    conf.classList.add('rej');
+    conf.textContent='Rejected · metric stays flagged';
+    (map.before||[]).forEach(setMetric);
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')go(cur+1);
+  if(e.key==='ArrowLeft')go(cur-1);
+});
+go(0);
+</script>
+</body>
+</html>
