@@ -2,7 +2,7 @@
 
 A working demonstration of agent-assisted workflow transformation — turning a high-friction workflow into a governed, agent-assisted operating system.
 
-→ **Live:** https://lakshmi-peri-v.github.io/REPO/
+→ **Live:** https://lakshmi-peri-v.github.io/operating-picture/
 
 ## What it is
 Pick a workflow — including eBay's seller onboarding, listing quality, or returns & disputes — and watch it resolve from scattered signals into a single operating picture: signals interpreted by specialized agents, a decision brief prepared, a human approving, every step on the record.
