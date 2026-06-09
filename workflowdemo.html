@@ -34,6 +34,10 @@ body{
 .mark{padding:30px 0 0;display:flex;align-items:center;justify-content:space-between}
 .mark .nm{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--mute);font-weight:600}
 .mark .by{font-size:11px;letter-spacing:.06em;color:var(--mute)}
+.mark .home{font-size:11px;letter-spacing:.06em;color:var(--mute);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:color .15s}
+.mark .home:hover{color:var(--ink)}
+.mark .home svg{width:12px;height:12px}
+.mark .right{display:flex;align-items:center;gap:18px}
 
 /* hero */
 .hero{padding:90px 0 30px;max-width:760px}
@@ -144,7 +148,10 @@ body{
 <div class="wrap">
   <div class="mark">
     <div class="nm">The Operating Picture</div>
-    <div class="by">an interactive by Lakshmi Peri</div>
+    <div class="right">
+      <a class="home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to overview</a>
+      <div class="by">an interactive by Lakshmi Peri</div>
+    </div>
   </div>
 
   <div class="hero">
@@ -173,8 +180,8 @@ body{
     <h4>What you're looking at</h4>
     <p><b>This is a thinking tool, not a product.</b> Pick any workflow — or name your own — and the same method resolves it: scattered signals become typed facts, specialized agents interpret them, a human approves, and every step stays on the record.</p>
     <p><b>The figures are illustrative, but the operating model is real.</b> At Intuit Fintech, I designed and deployed a multi-agent program operations capability that transformed fragmented execution signals into a governed operating picture for leaders — a shared source of truth for risks, dependencies, and execution health.</p>
-    <p><b>The method is consistent wherever it's applied:</b> start with the highest-friction, highest-frequency work, turn it into governed, agent-assisted decisions, keep humans accountable, and prove impact with measurable outcomes.</p>
-    <p style="margin-top:18px"><a href="truestar.html" style="color:var(--accent);font-weight:600;text-decoration:none">See the method taken end-to-end — the full operating system &rarr;</a></p>
+    <p><b>What you see here is the read.</b> Behind it sits the full operating system — the same method run end-to-end across a live program, with the signal engine, the economics, and how it scales to many programs at once.</p>
+    <p style="margin-top:18px"><a href="truestar.html" style="color:var(--accent);font-weight:600;text-decoration:none">See the full operating system &rarr;</a></p>
   </div>
 
   <div class="foot">

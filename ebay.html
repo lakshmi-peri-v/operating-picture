@@ -34,6 +34,10 @@ body{
 .mark{padding:30px 0 0;display:flex;align-items:center;justify-content:space-between}
 .mark .nm{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--mute);font-weight:600}
 .mark .by{font-size:11px;letter-spacing:.06em;color:var(--mute)}
+.mark .home{font-size:11px;letter-spacing:.06em;color:var(--mute);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:color .15s}
+.mark .home:hover{color:var(--ink)}
+.mark .home svg{width:12px;height:12px}
+.mark .right{display:flex;align-items:center;gap:18px}
 
 /* hero */
 .hero{padding:90px 0 30px;max-width:760px}
@@ -148,12 +152,15 @@ body{
 <div class="wrap">
   <div class="mark">
     <div class="nm">The Operating Picture</div>
-    <div class="by">an interactive by Lakshmi Peri</div>
+    <div class="right">
+      <a class="home" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to overview</a>
+      <div class="by">an interactive by Lakshmi Peri</div>
+    </div>
   </div>
 
   <div class="hero">
-    <h1>Most teams don't have a workflow problem. They have a <em>coordination</em> problem wearing a workflow costume.</h1>
-    <p>Name a workflow you know is messy. Watch it resolve — from scattered signals into a single, governed operating picture.</p>
+    <h1>The problem is rarely the workflow itself. It's the <em>coordination</em> hidden inside it.</h1>
+    <p>Take a workflow that runs on scattered updates and late signals — and watch it become a single, governed operating picture.</p>
   </div>
 
   <div class="choose">
@@ -164,7 +171,6 @@ body{
       <button class="pill ebay" data-k="seller">Seller Onboarding</button>
       <button class="pill ebay" data-k="listing">Listing Quality</button>
       <button class="pill ebay" data-k="disputes">Returns &amp; Disputes</button>
-      <span class="custom"><input id="customIn" type="text" placeholder="…or name your own" maxlength="34"><button id="customGo">Resolve</button></span>
     </div>
   </div>
 
@@ -174,10 +180,10 @@ body{
 
   <div class="about">
     <h4>What you're looking at</h4>
-    <p><b>This is a thinking tool, not a product.</b> Pick any of these workflows — or name your own — and the same method resolves it: scattered signals become typed facts, specialized agents interpret them, a human approves, and every step stays on the record.</p>
+    <p><b>This is a thinking tool, not a product.</b> Pick any of these three workflows and the same method resolves it: scattered signals become typed facts, specialized agents interpret them, a human approves, and every step stays on the record.</p>
     <p><b>The figures are illustrative, but the operating model is real.</b> At Intuit Fintech, I designed and deployed a multi-agent program operations capability that transformed fragmented execution signals into a governed operating picture for leaders — a shared source of truth for risks, dependencies, and execution health. This page shows how the same workflow-transformation approach applies to a marketplace leader's highest-friction workflows.</p>
-    <p><b>The method is consistent wherever it's applied:</b> start with the highest-friction, highest-frequency work, turn it into governed, agent-assisted decisions, keep humans accountable, and prove impact with measurable outcomes.</p>
-    <p style="margin-top:18px"><a href="truestar.html" style="color:var(--accent);font-weight:600;text-decoration:none">See the method taken end-to-end — the full operating system &rarr;</a></p>
+    <p><b>What you see here is the read.</b> Behind it sits the full operating system — the same method run end-to-end across a live program, with the signal engine, the economics, and how it scales to many programs at once.</p>
+    <p style="margin-top:18px"><a href="truestar.html" style="color:var(--accent);font-weight:600;text-decoration:none">See the full operating system &rarr;</a></p>
   </div>
 
   <div class="foot">
@@ -207,14 +213,6 @@ const DATA={
     problem:["28 cases past SLA; buyer sentiment dropping on repeat disputes.","sla_breach 28 · sentiment 0.38"],
     rec:"Auto-resolve clear seller-fault cases; escalate repeat offenders."}
 };
-function universal(name){
-  return {name:name,
-    sources:["Docs","Chat","Email","Tracker","Calendar"],
-    signals:[["readiness","64%"],["throughput","78%"],["completion","55%"],["quality","0.70"],["risk_open","4"],["aging","12d"],["load","82%"],["sentiment","0.61"]],
-    agents:[["Is it ready?","Readiness"],["Are we on pace?","Throughput"],["What could break?","Risk"],["How does it feel?","Experience"]],
-    problem:["Two steps aging past target; one risk has no owner.","aging 12d · risk_open 4"],
-    rec:"Escalate the unowned risk; rebalance the load."};
-}
 
 const stage=document.getElementById('stage');
 const pills=[...document.querySelectorAll('.pill')];
@@ -273,14 +271,6 @@ pills.forEach(p=>p.onclick=()=>{
   render(DATA[p.dataset.k]);
   stage.scrollIntoView({behavior:'smooth',block:'nearest'});
 });
-document.getElementById('customGo').onclick=()=>{
-  const v=document.getElementById('customIn').value.trim();
-  if(!v)return;
-  pills.forEach(x=>x.classList.remove('on'));
-  render(universal(v));
-  stage.scrollIntoView({behavior:'smooth',block:'nearest'});
-};
-document.getElementById('customIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('customGo').click();});
 </script>
 </body>
 </html>
