@@ -66,7 +66,16 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+    margin-bottom: 20px;
+  }
+  .ai-line {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 56ch;
     margin-bottom: 48px;
+    padding-left: 14px;
+    border-left: 2px solid var(--line-soft);
   }
   .stat {
     background: var(--surface);
@@ -225,6 +234,8 @@
       <div class="desc">operational savings</div>
     </div>
   </div>
+
+  <p class="ai-line">Including an AI-enabled program operations capability I designed and deployed in production &mdash; explore it below.</p>
 
   <div class="demo-card">
     <p class="label">See it work</p>
