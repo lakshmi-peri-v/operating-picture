@@ -16,8 +16,8 @@
   --line:#e8e9ec;
   --line-2:#dcdee2;
   --panel:#ffffff;
-  --accent:#33459e;
-  --accent-soft:#eef0fb;
+  --accent:#16181c;
+  --accent-soft:#f0f1f3;
   --ok:#1a8f5f;
   --ok-soft:#e7f4ee;
 }
@@ -55,10 +55,6 @@ body{
 }
 .pill:hover{border-color:var(--accent);color:var(--accent)}
 .pill.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.pill.ebay{position:relative;overflow:visible;background:var(--accent-soft);border-color:#d6ddf4;color:var(--accent-ink);font-weight:600}
-.pill.ebay:hover{border-color:var(--accent);color:var(--accent)}
-.pill.ebay.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.pill.ebay::after{content:"eBay";position:absolute;top:-9px;right:-9px;font-size:9px;font-weight:800;letter-spacing:.02em;color:#fff;background:linear-gradient(135deg,var(--accent),#5a6cd0);padding:3px 8px;border-radius:20px;transform:rotate(8deg);box-shadow:0 4px 10px -3px rgba(51,69,158,.55);border:1.5px solid #fff}
 .custom{display:flex;align-items:center;gap:0;border:1px solid var(--line-2);border-radius:30px;overflow:hidden;background:var(--panel)}
 .custom input{border:none;outline:none;font-family:'Inter',sans-serif;font-size:14px;padding:10px 16px;width:170px;background:transparent;color:var(--ink)}
 .custom button{border:none;background:var(--accent-soft);color:var(--accent);font-weight:600;font-size:13px;padding:10px 16px;cursor:pointer}
@@ -157,13 +153,14 @@ body{
   </div>
 
   <div class="choose">
-    <div class="eyebrow">Example · A Marketplace Leader's Workflows</div>
-    <div class="frame">The same method, applied to a marketplace leader's highest-friction flows — seller onboarding, listing quality, and dispute resolution.</div>
-    <div class="lbl" style="margin-top:26px">Choose a workflow</div>
+    <div class="lbl">Choose a workflow</div>
     <div class="pills" id="pills">
-      <button class="pill ebay" data-k="seller">Seller Onboarding</button>
-      <button class="pill ebay" data-k="listing">Listing Quality</button>
-      <button class="pill ebay" data-k="disputes">Returns &amp; Disputes</button>
+      <button class="pill" data-k="gtm">Product Launch</button>
+      <button class="pill" data-k="onboard">Employee Onboarding</button>
+      <button class="pill" data-k="claims">Insurance Claims</button>
+      <button class="pill" data-k="hiring">Hiring</button>
+      <button class="pill" data-k="incident">Incident Response</button>
+      <button class="pill" data-k="vendor">Vendor Onboarding</button>
       <span class="custom"><input id="customIn" type="text" placeholder="…or name your own" maxlength="34"><button id="customGo">Resolve</button></span>
     </div>
   </div>
@@ -174,8 +171,8 @@ body{
 
   <div class="about">
     <h4>What you're looking at</h4>
-    <p><b>This is a thinking tool, not a product.</b> Pick any of these workflows — or name your own — and the same method resolves it: scattered signals become typed facts, specialized agents interpret them, a human approves, and every step stays on the record.</p>
-    <p><b>The figures are illustrative, but the operating model is real.</b> At Intuit Fintech, I designed and deployed a multi-agent program operations capability that transformed fragmented execution signals into a governed operating picture for leaders — a shared source of truth for risks, dependencies, and execution health. This page shows how the same workflow-transformation approach applies to a marketplace leader's highest-friction workflows.</p>
+    <p><b>This is a thinking tool, not a product.</b> Pick any workflow — or name your own — and the same method resolves it: scattered signals become typed facts, specialized agents interpret them, a human approves, and every step stays on the record.</p>
+    <p><b>The figures are illustrative, but the operating model is real.</b> At Intuit Fintech, I designed and deployed a multi-agent program operations capability that transformed fragmented execution signals into a governed operating picture for leaders — a shared source of truth for risks, dependencies, and execution health.</p>
     <p><b>The method is consistent wherever it's applied:</b> start with the highest-friction, highest-frequency work, turn it into governed, agent-assisted decisions, keep humans accountable, and prove impact with measurable outcomes.</p>
     <p style="margin-top:18px"><a href="truestar.html" style="color:var(--accent);font-weight:600;text-decoration:none">See the method taken end-to-end — the full operating system &rarr;</a></p>
   </div>
@@ -188,24 +185,42 @@ body{
 
 <script>
 const DATA={
-  seller:{name:"Seller Onboarding",
-    sources:["Seller Hub","KYC","Payments","Email","Catalog","Risk"],
-    signals:[["identity_verified","72%"],["first_listing","48%"],["payout_setup","55%"],["policy_ack","80%"],["fraud_score","0.18"],["time_to_active","6d"],["listings_live","120"],["sentiment","0.66"]],
-    agents:[["Are sellers cleared to sell?","Verification"],["Are they actually listing?","Activation"],["Can they get paid?","Payments"],["Any risk signals?","Trust & Safety"]],
-    problem:["Half of verified sellers haven't set up payouts; activation is stalling.","payout_setup 55% · first_listing 48%"],
-    rec:"Auto-prompt payout setup at verification; nudge the first listing."},
-  listing:{name:"Listing Quality",
-    sources:["Catalog","Image AI","Search","Policy","Seller Hub"],
-    signals:[["title_quality","68%"],["image_pass","74%"],["item_specifics","52%"],["policy_flags","9"],["search_impr","-6%"],["duplicate_rate","11%"],["mispriced","23"],["sentiment","0.70"]],
-    agents:[["Are listings complete?","Completeness"],["Do they meet policy?","Compliance"],["Are they findable?","Discoverability"],["Priced right?","Pricing"]],
-    problem:["Item specifics missing on half of new listings; search impressions slipping.","item_specifics 52% · search_impr −6%"],
-    rec:"Auto-suggest item specifics at listing; flag the 23 mispriced."},
-  disputes:{name:"Returns & Disputes",
-    sources:["Resolution Ctr","Payments","Email","Chat","Policy"],
-    signals:[["open_cases","340"],["avg_resolution","4.2d"],["sla_breach","28"],["escalation","12%"],["seller_fault","41%"],["refund_pending","90"],["repeat_disputes","17"],["sentiment","0.38"]],
-    agents:[["Are we within SLA?","Throughput"],["Who is at fault?","Adjudication"],["Are buyers frustrated?","Experience"],["Any repeat offenders?","Pattern"]],
-    problem:["28 cases past SLA; buyer sentiment dropping on repeat disputes.","sla_breach 28 · sentiment 0.38"],
-    rec:"Auto-resolve clear seller-fault cases; escalate repeat offenders."}
+  gtm:{name:"Product Launch",
+    sources:["CRM","Slack","Jira","Drive","Zoom","Email"],
+    signals:[["launch_readiness","78%"],["field_cert","43%"],["audience_overlap","22%"],["win_rate","-8%"],["trial_signups","100%"],["pricing_objections","3"],["blockers_open","5"],["days_to_launch","14"],["sentiment","0.62"]],
+    agents:[["Are we ready to launch?","Launch Readiness"],["Are we performing?","Funnel"],["Right audience?","Audience"],["Why are we losing?","Customer"]],
+    problem:["West region training incomplete; pricing objection surfacing.","field_cert 43% · win_rate −8%"],
+    rec:"Launch East only. Update positioning before West."},
+  onboard:{name:"Employee Onboarding",
+    sources:["HRIS","Slack","Email","LMS","Calendar","IT"],
+    signals:[["provisioning","60%"],["training_done","45%"],["day1_ready","70%"],["access_granted","40%"],["buddy_assigned","50%"],["equipment","80%"],["checkins","2"],["sentiment","0.71"]],
+    agents:[["Is day one ready?","Readiness"],["Do they have access?","Access"],["Are they connecting?","Engagement"],["Will they churn early?","Risk"]],
+    problem:["40% of new hires lack system access by day one.","access_granted 40% · day1_ready 70%"],
+    rec:"Auto-provision access before the start date."},
+  claims:{name:"Insurance Claims",
+    sources:["Claims DB","Email","Call Logs","Docs","Fraud"],
+    signals:[["claim_age","12d"],["docs_complete","55%"],["fraud_score","0.30"],["sla_breach","18"],["approval_pending","120"],["adjuster_load","85%"],["sentiment","0.41"],["payout_ready","30"]],
+    agents:[["Are we within SLA?","Throughput"],["Do claims have docs?","Completeness"],["Any red flags?","Fraud"],["Are customers frustrated?","Experience"]],
+    problem:["18 claims past SLA, most missing documentation.","sla_breach 18 · docs_complete 55%"],
+    rec:"Auto-request missing docs; reassign 6 aged claims."},
+  hiring:{name:"Hiring",
+    sources:["ATS","Email","Calendar","Slack","LinkedIn"],
+    signals:[["time_to_fill","42d"],["pipeline","60"],["no_shows","8"],["offer_accept","70%"],["stage_aging","14d"],["slate_balance","0.35"],["feedback_pending","12"],["recruiter_load","30"]],
+    agents:[["Are roles aging?","Velocity"],["Enough candidates?","Pipeline"],["Are offers landing?","Conversion"],["Balanced slate?","Quality"]],
+    problem:["Senior role stalled 14 days at final stage; 12 feedbacks pending.","stage_aging 14d · feedback_pending 12"],
+    rec:"Escalate pending feedback; add two sourced candidates."},
+  incident:{name:"Incident Response",
+    sources:["PagerDuty","Slack","Logs","Status","Jira"],
+    signals:[["mttr","38m"],["open_incidents","4"],["sev1","1"],["ack_time","6m"],["users_impacted","1200"],["error_rate","2.4%"],["postmortem_pending","3"],["oncall_load","high"]],
+    agents:[["How severe is it?","Severity"],["Are we acting fast?","Response"],["Who's affected?","Impact"],["Did we close the loop?","Learning"]],
+    problem:["Sev1 open 38 minutes; 1,200 users impacted.","sev1 1 · users_impacted 1200"],
+    rec:"Page secondary on-call; post a customer status update."},
+  vendor:{name:"Vendor Onboarding",
+    sources:["Procurement","Email","Legal","Finance","Docs"],
+    signals:[["contract","signed"],["security_review","50%"],["docs_complete","65%"],["payment_setup","no"],["access","30%"],["compliance","70%"],["days_in_process","21"],["owner","yes"]],
+    agents:[["Are they cleared?","Compliance"],["Risk assessed?","Security"],["Ready to transact?","Setup"],["Are we stalling?","Speed"]],
+    problem:["Security review half-done; payment unset after 21 days.","security_review 50% · payment_setup no"],
+    rec:"Escalate security; parallelize finance setup."}
 };
 function universal(name){
   return {name:name,

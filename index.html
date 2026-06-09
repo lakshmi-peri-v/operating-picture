@@ -53,6 +53,13 @@
     line-height: 1.6;
     color: var(--ink-soft);
     max-width: 54ch;
+    margin-bottom: 22px;
+  }
+  .frame {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-mute);
+    max-width: 54ch;
     margin-bottom: 44px;
   }
   .stats {
@@ -123,6 +130,19 @@
   }
   .demo-link:hover { opacity: 0.6; }
   .demo-link svg { width: 15px; height: 15px; }
+  .demo-links { display: flex; flex-direction: column; align-items: flex-start; }
+  .demo-link-2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    text-decoration: none;
+    margin-top: 14px;
+    transition: color 0.15s ease;
+  }
+  .demo-link-2:hover { color: var(--ink-soft); }
+  .demo-link-2 svg { width: 13px; height: 13px; }
   .section-label {
     font-size: 11px;
     letter-spacing: 0.12em;
@@ -189,6 +209,8 @@
 
   <p class="lede">18+ years turning ambiguous, cross-functional initiatives into governed operating models &mdash; in fintech, SaaS, and data platforms.</p>
 
+  <p class="frame">This page is how I work, the proof it delivers, and a demo you can explore &mdash; not a résumé.</p>
+
   <div class="stats">
     <div class="stat">
       <div class="num">~5M</div>
@@ -207,11 +229,17 @@
   <div class="demo-card">
     <p class="label">See it work</p>
     <h2>The Operating Picture</h2>
-    <p>An interactive demo &mdash; pick a messy workflow and watch it resolve into a single governed operating picture, with humans in control at every decision.</p>
-    <a class="demo-link" href="truestar.html">
+    <p>The same operating model behind the results above &mdash; shown here as an interactive you can explore. Pick a messy workflow and watch it resolve into a single governed operating picture, with humans in control at every decision.</p>
+    <div class="demo-links">
+    <a class="demo-link" href="workflowdemo.html">
       See the method working
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
     </a>
+    <a class="demo-link-2" href="ebay.html">
+      Or see it on a marketplace leader's workflows
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+    </a>
+    </div>
   </div>
 
   <p class="section-label">How I work</p>
