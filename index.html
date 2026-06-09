@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lakshmi Peri · Enterprise Transformation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-mute: #8a8a8a;
+    --line: #e8e8e8;
+    --line-soft: #f0f0f0;
+    --accent: #1a1a1a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 88px 32px 72px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 34px;
+    line-height: 1.22;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+    max-width: 18ch;
+  }
+  .lede {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 54ch;
+    margin-bottom: 44px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 18px;
+  }
+  .stat .num {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat .desc {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ink-soft);
+  }
+  .demo-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 26px 26px;
+    margin-bottom: 56px;
+    transition: border-color 0.15s ease;
+  }
+  .demo-card:hover { border-color: #d0d0d0; }
+  .demo-card .label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .demo-card h2 {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .demo-card p {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 18px;
+    max-width: 52ch;
+  }
+  .demo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: opacity 0.15s ease;
+  }
+  .demo-link:hover { opacity: 0.6; }
+  .demo-link svg { width: 15px; height: 15px; }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .how {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    margin-bottom: 56px;
+  }
+  .how em {
+    font-style: italic;
+    color: var(--ink);
+  }
+  .foot {
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+  }
+  .foot a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .foot a:hover { color: var(--ink); }
+  .foot a svg { width: 14px; height: 14px; }
+  .foot .contact {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-left: auto;
+  }
+  .foot .contact a {
+    display: inline;
+    color: var(--ink-mute);
+  }
+  .foot .contact a:hover { color: var(--ink-soft); }
+  @media (max-width: 600px) {
+    .wrap { padding: 56px 22px 56px; }
+    h1 { font-size: 27px; }
+    .lede { font-size: 16px; }
+    .stats { grid-template-columns: 1fr; gap: 12px; }
+    .foot .contact { margin-left: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Lakshmi Peri · SF Bay Area</p>
+
+  <h1>I lead enterprise transformation programs that deliver at scale.</h1>
+
+  <p class="lede">18+ years turning ambiguous, cross-functional initiatives into governed operating models &mdash; in fintech, SaaS, and data platforms.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num">~5M</div>
+      <div class="desc">customers migrated, zero disruption</div>
+    </div>
+    <div class="stat">
+      <div class="num">~$75M</div>
+      <div class="desc">revenue, attrition under ~1.2%</div>
+    </div>
+    <div class="stat">
+      <div class="num">~$13M</div>
+      <div class="desc">operational savings</div>
+    </div>
+  </div>
+
+  <div class="demo-card">
+    <p class="label">See it work</p>
+    <h2>The Operating Picture</h2>
+    <p>An interactive demo &mdash; pick a messy workflow and watch it resolve into a single governed operating picture, with humans in control at every decision.</p>
+    <a class="demo-link" href="truestar.html">
+      See the method working
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+    </a>
+  </div>
+
+  <p class="section-label">How I work</p>
+  <p class="how">Most teams don't have a workflow problem &mdash; they have a <em>coordination</em> problem wearing a workflow costume. I start with the highest-friction work, pull out the operating model underneath it, and turn scattered signals into governed, accountable decisions &mdash; without adding headcount, and with humans deciding at every step.</p>
+
+  <div class="foot">
+    <a href="https://www.linkedin.com/in/lakshmiperi/">
+      Résumé &amp; full track record
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <span class="contact"><a href="mailto:lakshmi.pv@gmail.com">lakshmi.pv@gmail.com</a></span>
+  </div>
+
+</div>
+</body>
+</html>
