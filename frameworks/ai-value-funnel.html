@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Before You Fund Another AI Pilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f6;
+    --surface: #ffffff;
+    --ink: #161616;
+    --ink-soft: #474743;
+    --ink-mute: #8b8a84;
+    --line: #e7e5df;
+    --line-soft: #f0efe9;
+    --accent: #0e6b5c;
+    --accent-deep: #0a4f44;
+    --accent-soft: #e3efec;
+    --kill: #9c4a3c;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { -webkit-font-smoothing:antialiased; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+  .rule { position:fixed; top:0; bottom:0; left:max(12px, calc(50% - 470px)); width:2px; background:linear-gradient(var(--accent), rgba(14,107,92,.12)); }
+  .wrap { max-width:840px; margin:0 auto; padding:72px 32px 80px; }
+  .mono { font-family:'IBM Plex Mono',monospace; }
 
+  .eyebrow { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:500; display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding-bottom:14px; }
+  .eyebrow a { color:var(--ink-mute); text-decoration:none; }
+  .eyebrow a:hover { color:var(--accent); }
+  h1 { font-family:'Source Serif 4',serif; font-size:clamp(32px,5vw,46px); line-height:1.12; font-weight:700; margin:34px 0 10px; max-width:22ch; }
+  .thesis { font-family:'Source Serif 4',serif; font-style:italic; font-size:clamp(19px,2.4vw,24px); color:var(--ink); margin:24px 0 0; padding-left:20px; border-left:3px solid var(--accent); max-width:30em; }
+  .thesis strong { font-style:normal; font-weight:700; color:var(--accent-deep); }
+  .sub { color:var(--ink-soft); font-size:15.5px; margin-top:16px; max-width:60ch; }
+
+  .formula { margin:46px 0; border:1px solid var(--line); background:var(--surface); border-top:3px solid var(--accent); border-radius:10px; padding:24px 28px; text-align:center; }
+  .formula .eq { font-family:'IBM Plex Mono',monospace; font-size:clamp(16px,2.3vw,21px); font-weight:600; }
+  .formula .eq span { color:var(--accent); }
+  .formula .note { font-size:13px; color:var(--ink-mute); margin-top:8px; }
+
+  .funnel-head { display:flex; justify-content:space-between; align-items:baseline; border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:6px; }
+  .funnel-head h2 { font-family:'Source Serif 4',serif; font-size:25px; font-weight:700; }
+  .funnel-head .tally { font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink-mute); }
+  .enter { font-family:'IBM Plex Mono',monospace; font-size:14px; text-align:center; padding:14px 0; color:var(--ink-mute); }
+  .enter b { color:var(--ink); font-size:17px; }
+
+  .gate { background:var(--surface); border:1px solid var(--line); border-left:5px solid var(--accent); border-radius:0 10px 10px 0; padding:20px 26px 16px; margin-bottom:4px; }
+  .gate[data-step="1"]{ margin-right:0 }
+  .gate[data-step="2"]{ margin-left:3%; margin-right:3% }
+  .gate[data-step="3"]{ margin-left:6%; margin-right:6% }
+  .gate[data-step="4"]{ margin-left:9%; margin-right:9% }
+  .gate[data-step="5"]{ margin-left:12%; margin-right:12% }
+  .gate[data-step="6"]{ margin-left:15%; margin-right:15% }
+
+  .gate-top { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; }
+  .gate-code { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:12px; background:var(--accent); color:#fff; padding:3px 9px; border-radius:4px; }
+  .gate-name { font-family:'Source Serif 4',serif; font-weight:700; font-size:20px; }
+  .gate-q { font-family:'Source Serif 4',serif; font-style:italic; font-size:15.5px; color:var(--accent-deep); margin-left:auto; }
+  .gate-questions { columns:2; column-gap:34px; margin:13px 0 11px; font-size:14px; color:var(--ink-soft); }
+  .gate-questions li { margin:0 0 7px 16px; break-inside:avoid; }
+  .gate-purpose { font-size:13px; color:var(--ink-mute); border-top:1px dashed var(--line); padding-top:9px; }
+  .gate-purpose b { color:var(--ink); font-weight:600; }
+
+  .kill { display:flex; justify-content:flex-end; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--kill); padding:6px 4px 12px; }
+  .kill .remain { color:var(--ink-mute); }
+  .kill b { color:var(--ink); }
+
+  .survivors { margin:10px 15% 0; background:var(--accent); color:#fff; padding:24px 28px; text-align:center; border-radius:10px; }
+  .survivors .n { font-family:'Source Serif 4',serif; font-size:42px; font-weight:700; line-height:1; }
+  .survivors .lbl { font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin-top:6px; opacity:.92; }
+  .survivors .req { font-size:13.5px; margin-top:10px; opacity:.92; }
+
+  .ratio { margin:46px 0 14px; display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface); }
+  .ratio > div { padding:22px; text-align:center; }
+  .ratio > div:first-child { border-right:1px solid var(--line); }
+  .ratio .big { font-family:'Source Serif 4',serif; font-size:34px; font-weight:700; }
+  .ratio .red { color:var(--kill); }
+  .ratio .green { color:var(--accent); }
+  .ratio p { font-size:13px; color:var(--ink-mute); margin-top:4px; }
+  .ratio-note { font-family:'Source Serif 4',serif; font-style:italic; font-size:15px; text-align:center; color:var(--ink-soft); margin-bottom:48px; }
+
+  .steps-head { font-family:'Source Serif 4',serif; font-size:25px; font-weight:700; border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:22px; }
+  .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .step { background:var(--surface); padding:18px 16px; }
+  .step .num { font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--accent); font-weight:600; }
+  .step h3 { font-family:'Source Serif 4',serif; font-size:16px; font-weight:700; margin:6px 0; }
+  .step p { font-size:12.5px; color:var(--ink-mute); line-height:1.5; }
+
+  footer { margin-top:56px; border-top:1px solid var(--line); padding-top:18px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:13px; color:var(--ink-mute); }
+  footer .next { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); }
+
+  @media (max-width:640px){
+    .wrap{ padding:52px 22px 60px }
+    .rule{ display:none }
+    .gate{ margin-left:0!important; margin-right:0!important; border-left-width:4px }
+    .gate-q{ margin-left:0; width:100% }
+    .gate-questions{ columns:1 }
+    .steps{ grid-template-columns:1fr 1fr }
+    .survivors{ margin:10px 0 0 }
+    .ratio{ grid-template-columns:1fr }
+    .ratio > div:first-child{ border-right:none; border-bottom:1px solid var(--line) }
+  }
+</style>
+</head>
+<body>
+<div class="rule"></div>
+<div class="wrap">
+
+  <div class="eyebrow"><span>AI Transformation Series · 01</span><a href="../index.html">← Lakshmi Peri</a></div>
+
+  <h1>Before You Fund Another AI Pilot</h1>
+
+  <p class="thesis">Most organizations don't have an AI problem. <strong>They have a measurement problem.</strong> If you can't define today's baseline, you can't prove tomorrow's AI value.</p>
+
+  <p class="sub">Failed AI pilots share five findings: no baseline, no owner, no KPI, no clean data, no workflow understanding. None are technology failures — all are diagnosis failures. This framework is the diagnosis.</p>
+
+  <div class="formula">
+    <div class="eq">AI Value = Technology <span>×</span> Process <span>×</span> Adoption</div>
+    <div class="note">Multiplicative, not additive. A 10/10 model on a broken process with zero adoption delivers zero value.</div>
+  </div>
+
+  <div class="funnel-head">
+    <h2>The Six-Gate AI Value Funnel</h2>
+    <span class="tally">candidates remaining →</span>
+  </div>
+  <div class="enter"><b>28</b> candidate AI ideas enter</div>
+
+  <div class="gate" data-step="1">
+    <div class="gate-top"><span class="gate-code">GATE 1</span><span class="gate-name">Business Economics</span><span class="gate-q">Where does money flow today?</span></div>
+    <ul class="gate-questions">
+      <li>What are the organization's top cost centers?</li>
+      <li>What are the primary revenue drivers?</li>
+      <li>Which KPIs does leadership review weekly or monthly?</li>
+      <li>Which business outcomes matter most this year?</li>
+    </ul>
+    <div class="gate-purpose"><b>Purpose:</b> AI creates the greatest value where money already flows.</div>
+  </div>
+  <div class="kill">7 killed →→ <span class="remain"><b>21</b> remain</span></div>
+
+  <div class="gate" data-step="2">
+    <div class="gate-top"><span class="gate-code">GATE 2</span><span class="gate-name">Workflow Reality</span><span class="gate-q">Where does time flow today?</span></div>
+    <ul class="gate-questions">
+      <li>Which workflows consume the most employee time?</li>
+      <li>Which activities are repetitive, manual, or coordination-heavy?</li>
+      <li>Which work products are created but rarely used?</li>
+      <li>Which decisions require judgment vs. information gathering?</li>
+    </ul>
+    <div class="gate-purpose"><b>Purpose:</b> AI should target meaningful work, not isolated tasks.</div>
+  </div>
+  <div class="kill">5 killed →→ <span class="remain"><b>16</b> remain</span></div>
+
+  <div class="gate" data-step="3">
+    <div class="gate-top"><span class="gate-code">GATE 3</span><span class="gate-name">Data Readiness</span><span class="gate-q">Where does information flow today?</span></div>
+    <ul class="gate-questions">
+      <li>What structured data already exists?</li>
+      <li>What systems contain the required information?</li>
+      <li>Where is knowledge trapped in documents, email, or tribal expertise?</li>
+      <li>How accessible and reliable is the data?</li>
+    </ul>
+    <div class="gate-purpose"><b>Purpose:</b> AI value follows data readiness, not ambition.</div>
+  </div>
+  <div class="kill">5 killed →→ <span class="remain"><b>11</b> remain</span></div>
+
+  <div class="gate" data-step="4">
+    <div class="gate-top"><span class="gate-code">GATE 4</span><span class="gate-name">Bottleneck Severity</span><span class="gate-q">Where does work break today?</span></div>
+    <ul class="gate-questions">
+      <li>What breaks when volume doubles?</li>
+      <li>Where do delays create downstream business impact?</li>
+      <li>Which workflows regularly miss SLAs?</li>
+      <li>Which dependencies slow execution?</li>
+    </ul>
+    <div class="gate-purpose"><b>Purpose:</b> The biggest bottlenecks often produce the fastest ROI.</div>
+  </div>
+  <div class="kill">4 killed →→ <span class="remain"><b>7</b> remain</span></div>
+
+  <div class="gate" data-step="5">
+    <div class="gate-top"><span class="gate-code">GATE 5</span><span class="gate-name">Adoption Reality</span><span class="gate-q">Will people actually use it?</span></div>
+    <ul class="gate-questions">
+      <li>Who owns the process today?</li>
+      <li>Who must trust the AI output?</li>
+      <li>What can be automated vs. augmented?</li>
+      <li>What risks exist if the AI is wrong?</li>
+    </ul>
+    <div class="gate-purpose"><b>Purpose:</b> Adoption determines realized value. If adoption is zero, value is zero.</div>
+  </div>
+  <div class="kill">3 killed →→ <span class="remain"><b>4</b> remain</span></div>
+
+  <div class="gate" data-step="6">
+    <div class="gate-top"><span class="gate-code">GATE 6</span><span class="gate-name">Measurability</span><span class="gate-q">Can we prove value?</span></div>
+    <ul class="gate-questions">
+      <li>What is the current baseline?</li>
+      <li>What KPI will improve?</li>
+      <li>How will success be measured?</li>
+      <li>How frequently can results be tracked?</li>
+    </ul>
+    <div class="gate-purpose"><b>Purpose:</b> If value cannot be measured, value cannot be proven.</div>
+  </div>
+  <div class="kill">1 killed →→ <span class="remain"><b>3</b> remain</span></div>
+
+  <div class="survivors">
+    <div class="n">3</div>
+    <div class="lbl">Investment candidates</div>
+    <div class="req">Each with a named owner · a written baseline · a KPI leadership already tracks</div>
+  </div>
+
+  <div class="ratio">
+    <div><div class="big red">25</div><p>ideas killed at the gates — before consuming budget, credibility, and a year of organizational patience</p></div>
+    <div><div class="big green">3</div><p>opportunities most likely to deliver measurable business outcomes</p></div>
+  </div>
+  <p class="ratio-note">The funnel doesn't slow AI adoption. It protects your right to keep investing in it.</p>
+
+  <h2 class="steps-head">How to Use This</h2>
+  <div class="steps">
+    <div class="step"><div class="num">STEP 1</div><h3>Inventory</h3><p>List every AI idea currently proposed or piloted — no filtering.</p></div>
+    <div class="step"><div class="num">STEP 2</div><h3>Run the gates</h3><p>Be ruthless. A "maybe" at any gate is a "no" until resolved.</p></div>
+    <div class="step"><div class="num">STEP 3</div><h3>Write the baseline</h3><p>For survivors, record today's number before any build starts.</p></div>
+    <div class="step"><div class="num">STEP 4</div><h3>Assign an owner</h3><p>Not a sponsor — an owner accountable for the workflow.</p></div>
+  </div>
+
+  <footer>
+    <span>Lakshmi Peri · AI Transformation · Operating Models · Measurable Outcomes</span>
+    <span class="next">NEXT IN SERIES → Not Every Workflow Is Ready for AI</span>
+  </footer>
+
+</div>
+</body>
+</html>
