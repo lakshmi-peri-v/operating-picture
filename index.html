@@ -1,4 +1,211 @@
-<!DOCTYPE html><html><head>
-<meta http-equiv="refresh" content="0; url=https://lakshmi-peri-v.github.io/">
-<link rel="canonical" href="https://lakshmi-peri-v.github.io/">
-</head><body>Moved to <a href="https://lakshmi-peri-v.github.io/">lakshmi-peri-v.github.io</a></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lakshmi Peri · Enterprise Transformation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f2eb; --panel:#fffdf7; --bg-soft:#ece7db;
+    --ink:#11203a; --ink-soft:#4a5468; --ink-mute:#8b91a3;
+    --line:#e4ddcd; --accent:#1e4e8c; --accent-deep:#15396a;
+    --mono:'JetBrains Mono',monospace; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink-soft);line-height:1.6;font-size:16px}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+
+  .shell{max-width:1080px;margin:0 auto;padding:0 26px;display:grid;grid-template-columns:40% 60%;gap:44px}
+  @media(max-width:880px){.shell{grid-template-columns:1fr;gap:0}}
+
+  .rail{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:64px 0 40px}
+  @media(max-width:880px){.rail{position:static;height:auto;padding:60px 0 16px}}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+  .rail h1{font-size:clamp(28px,3.4vw,38px);line-height:1.1;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-bottom:14px}
+  .rail .tag{font-size:15px;line-height:1.55;color:var(--ink-soft);margin-bottom:14px;max-width:40ch}
+  .rail .frame{font-size:13px;color:var(--ink-mute);max-width:40ch;margin-bottom:20px}
+  .railnav{margin-bottom:20px}
+  .railnav ul{list-style:none}
+  .railnav a{display:flex;align-items:center;gap:14px;padding:8px 0;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;transition:color .2s}
+  .railnav a .bar{width:22px;height:2px;border-radius:2px;background:var(--ink-mute);transition:width .2s,background .2s}
+  .railnav a:hover{color:var(--ink)} .railnav a:hover .bar{width:46px;background:var(--accent)}
+  .railnav a.active{color:var(--accent);font-weight:600} .railnav a.active .bar{width:54px;background:var(--accent)}
+  .rail .socials{margin-top:auto;display:flex;gap:18px;padding-top:20px;border-top:1px solid var(--line)}
+  .rail .socials a{font-family:var(--mono);font-size:12px;color:var(--ink-mute);transition:.2s}
+  .rail .socials a:hover{color:var(--accent)}
+
+  main{padding:64px 0 80px}
+  @media(max-width:880px){main{padding:4px 0 56px}}
+  section{padding:34px 0;border-top:2px solid var(--line);scroll-margin-top:40px}
+  section:first-child{border-top:none;padding-top:0}
+  .s-label{display:none}
+  @media(max-width:880px){.railnav{display:none}.s-label{display:block;position:sticky;top:0;background:#f5f2ebee;backdrop-filter:blur(8px);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);padding:13px 0;margin-bottom:14px;z-index:5}}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+
+  /* proof stats */
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;transition:transform .15s,border-color .2s}
+  .stat:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .stat .num{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--ink);line-height:1;margin-bottom:8px}
+  .stat .num .u{color:var(--accent)}
+  .stat .desc{font-size:13px;color:var(--ink-soft);line-height:1.45}
+  .context{font-size:13.5px;color:var(--ink-soft);max-width:60ch;margin-top:16px;padding-left:14px;border-left:2px solid var(--accent)}
+  .context b{color:var(--ink)}
+
+  /* demo card */
+  .card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;transition:transform .15s,border-color .2s}
+  a.card:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .card .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  .card h3{font-size:21px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:9px;display:flex;align-items:center;gap:9px}
+  .card h3 svg{width:16px;height:16px;color:var(--accent);transition:transform .2s}
+  a.card:hover h3 svg{transform:translate(3px,-3px)}
+  .card p{font-size:14px;color:var(--ink-soft);max-width:56ch}
+
+  /* frameworks */
+  .fw{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+  .fw a,.fw .soon{display:flex;align-items:center;gap:16px;padding:15px 20px;border-bottom:1px solid var(--line);transition:background .15s}
+  .fw a:last-child,.fw .soon:last-child{border-bottom:none}
+  .fw a:hover{background:var(--bg-soft)}
+  .fw a.active{background:var(--accent)}
+  .fw a.active .n{color:#cfe0f5}
+  .fw a.active .t{color:#fff}
+  .fw .n{font-family:var(--mono);font-size:13px;color:var(--accent);min-width:22px}
+  .fw .t{color:var(--ink);font-weight:500;font-size:15px}
+  .fw a .read{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1px solid var(--line);border-radius:20px;padding:5px 11px;transition:.18s;white-space:nowrap}
+  .fw a .read svg{width:12px;height:12px;transition:transform .18s}
+  .fw a:hover .read{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .fw a:hover .read svg{transform:translateX(2px)}
+  .fw a.active .read{background:#fff;color:var(--accent);border-color:#fff}
+  .fw .soon .n{color:var(--ink-mute)} .fw .soon .t{color:var(--ink-mute);font-weight:400}
+  .fw .badge{margin-left:auto;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);border:1px solid var(--line);border-radius:4px;padding:3px 8px}
+  .fw-intro{font-size:14px;color:var(--ink-soft);margin-bottom:14px;max-width:56ch}
+
+  /* insights */
+  .ins-note{font-size:14px;color:var(--ink-mute);margin-bottom:14px;max-width:56ch}
+  .ins{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+  .ins a{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line);transition:background .15s}
+  .ins a:last-child{border-bottom:none}
+  .ins a:hover{background:var(--bg-soft)}
+  .ins .n{font-family:var(--mono);font-size:13px;color:var(--accent);min-width:22px}
+  .ins .t{color:var(--ink);font-weight:500;font-size:15px}
+  .ins .arr{margin-left:auto;width:14px;height:14px;color:var(--accent);opacity:0;transition:.2s}
+  .ins a:hover .arr{opacity:1;transform:translateX(2px)}
+  .viewall{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--accent)}
+
+  /* endorsements */
+  .endorse{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;padding:22px 24px;margin-bottom:12px}
+  .endorse blockquote{font-size:15px;line-height:1.5;font-weight:500;color:var(--ink);margin-bottom:14px}
+  .endorse .by{display:flex;align-items:center;gap:11px}
+  .endorse .by .dot{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px;flex:none}
+  .endorse .by b{color:var(--ink);font-weight:600;font-size:14px}
+  .endorse .by .role{color:var(--ink-mute);font-size:13px}
+  .endorse .by a{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--accent);white-space:nowrap}
+  .more-link{display:inline-block;margin-top:4px;font-family:var(--mono);font-size:12px;color:var(--accent)}
+
+  /* how I work */
+  .how{font-size:18px;line-height:1.65;color:var(--ink-soft);max-width:56ch}
+  .how em{font-style:italic;color:var(--accent);font-weight:600} .how b{color:var(--ink);font-weight:600}
+
+  /* AI line */
+  .ai-line{font-size:14px;color:var(--ink-soft);max-width:60ch;margin-top:16px;padding-left:14px;border-left:2px solid var(--line)}
+  .ai-line b{color:var(--ink)}
+
+  footer{font-family:var(--mono);font-size:12px;color:var(--ink-mute);padding-top:18px;border-top:1px solid var(--line);margin-top:10px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+  footer a{color:var(--accent)}
+  footer .contact{margin-left:auto;color:var(--ink-mute)}
+
+  a:focus-visible,.card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="rail">
+    <div class="eyebrow">Lakshmi Peri · SF Bay Area</div>
+    <h1>I lead enterprise transformation and AI programs that deliver governed change at scale.</h1>
+    <p class="tag">18+ years turning ambiguous, cross-functional initiatives into governed operating models — in fintech, SaaS, and data platforms.</p>
+    <nav class="railnav"><ul>
+      <li><a href="#proof" class="active"><span class="bar"></span>Proof</a></li>
+      <li><a href="#demo"><span class="bar"></span>The Operating Picture</a></li>
+      <li><a href="#frameworks"><span class="bar"></span>Frameworks</a></li>
+      <li><a href="#endorsements"><span class="bar"></span>Endorsements</a></li>
+      <li><a href="#approach"><span class="bar"></span>How I Work</a></li>
+    </ul></nav>
+  </header>
+
+  <main>
+    <section id="proof">
+      <div class="s-label">Proof</div>
+      <p class="kicker">Proof</p>
+      <div class="stats">
+        <div class="stat"><div class="num">~5<span class="u">M</span></div><div class="desc">customers migrated, zero disruption</div></div>
+        <div class="stat"><div class="num">~$75<span class="u">M</span></div><div class="desc">revenue, attrition under ~1.2%</div></div>
+        <div class="stat"><div class="num">~$13<span class="u">M</span></div><div class="desc">operational savings</div></div>
+        <div class="stat"><div class="num">~12<span class="u">hrs/wk</span></div><div class="desc">freed per user by AI program ops I built — in production</div></div>
+      </div>
+      <p class="ai-line">The AI program-ops result above comes from a capability I designed and deployed in production — <b>planning, risk, dependencies, and executive reporting unified into one shared operating system.</b> The demo below shows the method behind it.</p>
+    </section>
+
+    <section id="demo">
+      <div class="s-label">The Operating Picture</div>
+      <p class="kicker">See it work</p>
+      <a class="card" href="workflowdemo.html">
+        <div class="k">Interactive</div>
+        <h3>The Operating Picture <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></h3>
+        <p>The operating model behind the AI program-ops capability above — shown as an interactive you can explore. Pick a messy workflow and watch it resolve into a single governed operating picture, with humans in control at every decision.</p>
+      </a>
+    </section>
+
+    <section id="frameworks">
+      <div class="s-label">Frameworks</div>
+      <p class="kicker">Frameworks</p>
+      <p class="fw-intro">Six questions every leader funding AI should answer first — each answered with a working framework, not opinions. New entries published regularly.</p>
+      <div class="fw">
+        <a href="frameworks/ai-value-funnel.html" class="active"><span class="n">01</span><span class="t">Before You Fund Another AI Pilot</span><span class="read">Read <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <div class="soon"><span class="n">02</span><span class="t">Not Every Workflow Is Ready for AI</span><span class="badge">In series</span></div>
+        <div class="soon"><span class="n">03</span><span class="t">You Can't Fund Everything: Ranking AI Bets</span><span class="badge">In series</span></div>
+        <div class="soon"><span class="n">04</span><span class="t">The Pilot Graveyard: Why Experiments Don't Scale</span><span class="badge">In series</span></div>
+        <div class="soon"><span class="n">05</span><span class="t">Your AI Demo Is Not a Business Case</span><span class="badge">In series</span></div>
+        <div class="soon"><span class="n">06</span><span class="t">AI Adoption Is a Behavior Problem</span><span class="badge">In series</span></div>
+      </div>
+    </section>
+
+    <section id="endorsements">
+      <div class="s-label">Endorsements</div>
+      <p class="kicker">Endorsements</p>
+      <div class="endorse">
+        <blockquote>"A pivotal leadership role organizing governance, operating models, and readiness frameworks — a major reason we delivered without any customer or business disruption across 5+ product lines and a dozen countries."</blockquote>
+        <div class="by"><span class="dot">JW</span><b>Joe Wolf</b><span class="role">· Intuit</span><a href="https://www.linkedin.com/in/lakshmiperi/details/recommendations/?detailScreenTabIndex=2">View ↗</a></div>
+      </div>
+      <div class="endorse">
+        <blockquote>"The price implementation was a tremendous success — $75M in revenue, under 1.2% attrition, no impact on customer acquisition. Lakshmi was the glue that brought it all together."</blockquote>
+        <div class="by"><span class="dot">TK</span><b>Tony King</b><span class="role">· SVP Pricing &amp; Commercialization, Xero</span><a href="https://www.linkedin.com/in/lakshmiperi/details/recommendations/?detailScreenTabIndex=2">View ↗</a></div>
+      </div>
+      <a class="more-link" href="https://www.linkedin.com/in/lakshmiperi/">More recommendations on LinkedIn →</a>
+    </section>
+
+    <section id="approach">
+      <div class="s-label">How I Work</div>
+      <p class="kicker">How I work</p>
+      <p class="how">Most teams don't have a workflow problem — they have a <em>coordination</em> problem wearing a workflow costume. I start with the highest-friction work, pull out the operating model underneath it, and turn scattered signals into governed, accountable decisions.</p>
+      <footer>
+        <a href="https://www.linkedin.com/in/lakshmiperi/">Résumé &amp; full track record ↗</a>
+        <span class="contact"><a href="mailto:lakshmi.pv@gmail.com">lakshmi.pv@gmail.com</a></span>
+      </footer>
+    </section>
+  </main>
+</div>
+<script>
+  const links=[...document.querySelectorAll('.railnav a')];
+  const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+  const obs=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));map.get(e.target.id)?.classList.add('active');}}),{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('main section').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
